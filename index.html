@@ -5,53 +5,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="./src/style.css">
+    <script src="https://clickbattle2025.web.app/click-battle.js"></script>
+    <script>
+        ClickBattle.init("gregory");
+    </script>
     <title>Clicker Game</title>
 </head>
 
 <body>
-    <div class="game-container">
-        <h1>Clicker Game</h1>
-
-        <div class="stats">
-            <div class="score">
-                <h2>Score: <span id="score">0</span></h2>
-            </div>
-            <div class="per-second">
-                <p>Per second: <span id="perSecond">0</span></p>
-            </div>
-        </div>
-
-        <div class="click-area">
-            <button id="clickButton" class="click-button">Click Me!</button>
-        </div>
-
-        <div class="upgrades">
-            <h3>Upgrades</h3>
-            <div class="upgrade-list">
-                <div class="upgrade-item">
-                    <button id="autoClicker" class="upgrade-button">
-                        <span class="upgrade-name">Auto Clicker</span>
-                        <span class="upgrade-info">+1/sec | Cost: <span id="autoClickerCost">10</span></span>
-                        <span class="upgrade-count">Owned: <span id="autoClickerCount">0</span></span>
-                    </button>
-                </div>
-                <div class="upgrade-item">
-                    <button id="clickMultiplier" class="upgrade-button">
-                        <span class="upgrade-name">Click Multiplier</span>
-                        <span class="upgrade-info">x2 per click | Cost: <span id="clickMultiplierCost">50</span></span>
-                        <span class="upgrade-count">Owned: <span id="clickMultiplierCount">0</span></span>
-                    </button>
-                </div>
-                <div class="upgrade-item">
-                    <button id="megaClicker" class="upgrade-button">
-                        <span class="upgrade-name">Mega Clicker</span>
-                        <span class="upgrade-info">+10/sec | Cost: <span id="megaClickerCost">100</span></span>
-                        <span class="upgrade-count">Owned: <span id="megaClickerCount">0</span></span>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div class="title">일론머스크 때리기</div>
+    <div class="coin-container">
+        <div class="coin"></div>
+        <div class="coin-count">0</div>
     </div>
+    <div class="musk-container">
+        <div class="musk musk1"></div>
+        <div class="musk musk2"></div>
+    </div>
+    <div class="subtitle">일론이 아파합니다</div>
+
+    <!-- Shop (appears above button) -->
+    <div class="shop-container" id="shopContainer">
+        <div class="skill-list" id="skillList"></div>
+    </div>
+
+    <div class="arcade-button">1펀치 1코인</div>
 
     <script type="module" src="./src/main.js"></script>
 </body>
