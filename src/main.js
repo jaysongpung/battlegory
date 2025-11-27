@@ -38,10 +38,8 @@ let playerStats = {
 // Shop progression
 let currentShopLevel = 0;
 const shopThresholds = [
-    30, 80, 180, 400, 800, 1600, 3200, 6400, 12800,
-    25600, 51200, 102400, 204800, 409600, 819200,
-    1638400, 3276800, 6553600, 13107200, 26214400,
-    52428800, 104857600, 209715200, 419430400, 838860800
+    30, 100, 250, 500, 1000, 2000, 4000, 8000, 15000,
+    30000, 60000, 120000, 240000, 480000, 1000000
 ];
 let visitedShops = new Set();
 
@@ -61,197 +59,117 @@ const skillPools = [
         { type: 'multiplier', effect: 1.5, cost: 18, desc: '클릭 획득량 x1.5' },
         { type: 'critical', effect: { chance: 10 }, cost: 15, desc: '크리티컬 확률 +10%' },
     ],
-    // Level 1 (80 coins)
+    // Level 1 (100 coins)
     [
-        { type: 'flat', effect: 5, cost: 40, desc: '클릭당 +5 코인' },
-        { type: 'flat', effect: 7, cost: 50, desc: '클릭당 +7 코인' },
-        { type: 'multiplier', effect: 1.8, cost: 45, desc: '클릭 획득량 x1.8' },
-        { type: 'critical', effect: { chance: 15 }, cost: 40, desc: '크리티컬 확률 +15%' },
-        { type: 'critical', effect: { multiplier: 0.5 }, cost: 35, desc: '크리티컬 배율 +0.5x' },
+        { type: 'flat', effect: 5, cost: 50, desc: '클릭당 +5 코인' },
+        { type: 'flat', effect: 8, cost: 60, desc: '클릭당 +8 코인' },
+        { type: 'multiplier', effect: 1.8, cost: 55, desc: '클릭 획득량 x1.8' },
+        { type: 'critical', effect: { chance: 15 }, cost: 50, desc: '크리티컬 확률 +15%' },
+        { type: 'critical', effect: { multiplier: 0.5 }, cost: 45, desc: '크리티컬 배율 +0.5x' },
     ],
-    // Level 2 (180 coins)
+    // Level 2 (250 coins)
     [
-        { type: 'flat', effect: 12, cost: 90, desc: '클릭당 +12 코인' },
-        { type: 'flat', effect: 15, cost: 110, desc: '클릭당 +15 코인' },
-        { type: 'multiplier', effect: 2.0, cost: 100, desc: '클릭 획득량 x2.0' },
-        { type: 'critical', effect: { chance: 20 }, cost: 85, desc: '크리티컬 확률 +20%' },
-        { type: 'critical', effect: { multiplier: 1.0 }, cost: 95, desc: '크리티컬 배율 +1.0x' },
+        { type: 'flat', effect: 15, cost: 125, desc: '클릭당 +15 코인' },
+        { type: 'flat', effect: 20, cost: 150, desc: '클릭당 +20 코인' },
+        { type: 'multiplier', effect: 2.0, cost: 135, desc: '클릭 획득량 x2.0' },
+        { type: 'critical', effect: { chance: 20 }, cost: 125, desc: '크리티컬 확률 +20%' },
+        { type: 'critical', effect: { multiplier: 1.0 }, cost: 130, desc: '크리티컬 배율 +1.0x' },
     ],
-    // Level 3 (400 coins)
+    // Level 3 (500 coins)
     [
-        { type: 'flat', effect: 25, cost: 200, desc: '클릭당 +25 코인' },
         { type: 'flat', effect: 35, cost: 250, desc: '클릭당 +35 코인' },
-        { type: 'multiplier', effect: 2.5, cost: 220, desc: '클릭 획득량 x2.5' },
-        { type: 'critical', effect: { chance: 25 }, cost: 200, desc: '크리티컬 확률 +25%' },
-        { type: 'critical', effect: { multiplier: 1.5 }, cost: 210, desc: '크리티컬 배율 +1.5x' },
+        { type: 'flat', effect: 50, cost: 300, desc: '클릭당 +50 코인' },
+        { type: 'multiplier', effect: 2.5, cost: 275, desc: '클릭 획득량 x2.5' },
+        { type: 'critical', effect: { chance: 25 }, cost: 250, desc: '크리티컬 확률 +25%' },
+        { type: 'critical', effect: { multiplier: 1.5 }, cost: 265, desc: '크리티컬 배율 +1.5x' },
     ],
-    // Level 4 (800 coins)
+    // Level 4 (1000 coins)
     [
-        { type: 'flat', effect: 50, cost: 400, desc: '클릭당 +50 코인' },
-        { type: 'flat', effect: 70, cost: 500, desc: '클릭당 +70 코인' },
-        { type: 'multiplier', effect: 3.0, cost: 450, desc: '클릭 획득량 x3.0' },
-        { type: 'critical', effect: { chance: 30 }, cost: 400, desc: '크리티컬 확률 +30%' },
-        { type: 'critical', effect: { multiplier: 2.0 }, cost: 420, desc: '크리티컬 배율 +2.0x' },
+        { type: 'flat', effect: 80, cost: 500, desc: '클릭당 +80 코인' },
+        { type: 'flat', effect: 120, cost: 600, desc: '클릭당 +120 코인' },
+        { type: 'multiplier', effect: 3.0, cost: 550, desc: '클릭 획득량 x3.0' },
+        { type: 'critical', effect: { chance: 30 }, cost: 500, desc: '크리티컬 확률 +30%' },
+        { type: 'critical', effect: { multiplier: 2.0 }, cost: 525, desc: '크리티컬 배율 +2.0x' },
     ],
-    // Level 5 (1600 coins)
+    // Level 5 (2000 coins)
     [
-        { type: 'flat', effect: 100, cost: 800, desc: '클릭당 +100 코인' },
-        { type: 'flat', effect: 150, cost: 1000, desc: '클릭당 +150 코인' },
-        { type: 'multiplier', effect: 3.5, cost: 900, desc: '클릭 획득량 x3.5' },
-        { type: 'critical', effect: { chance: 35 }, cost: 800, desc: '크리티컬 확률 +35%' },
-        { type: 'critical', effect: { multiplier: 2.5 }, cost: 850, desc: '크리티컬 배율 +2.5x' },
+        { type: 'flat', effect: 200, cost: 1000, desc: '클릭당 +200 코인' },
+        { type: 'flat', effect: 300, cost: 1200, desc: '클릭당 +300 코인' },
+        { type: 'multiplier', effect: 3.5, cost: 1100, desc: '클릭 획득량 x3.5' },
+        { type: 'critical', effect: { chance: 35 }, cost: 1000, desc: '크리티컬 확률 +35%' },
+        { type: 'critical', effect: { multiplier: 2.5 }, cost: 1050, desc: '크리티컬 배율 +2.5x' },
     ],
-    // Level 6 (3200 coins)
+    // Level 6 (4000 coins)
     [
-        { type: 'flat', effect: 250, cost: 1600, desc: '클릭당 +250 코인' },
-        { type: 'flat', effect: 350, cost: 2000, desc: '클릭당 +350 코인' },
-        { type: 'multiplier', effect: 4.0, cost: 1800, desc: '클릭 획득량 x4.0' },
-        { type: 'critical', effect: { chance: 40 }, cost: 1600, desc: '크리티컬 확률 +40%' },
-        { type: 'critical', effect: { multiplier: 3.0 }, cost: 1700, desc: '크리티컬 배율 +3.0x' },
+        { type: 'flat', effect: 500, cost: 2000, desc: '클릭당 +500 코인' },
+        { type: 'flat', effect: 700, cost: 2400, desc: '클릭당 +700 코인' },
+        { type: 'multiplier', effect: 4.0, cost: 2200, desc: '클릭 획득량 x4.0' },
+        { type: 'critical', effect: { chance: 40 }, cost: 2000, desc: '크리티컬 확률 +40%' },
+        { type: 'critical', effect: { multiplier: 3.0 }, cost: 2100, desc: '크리티컬 배율 +3.0x' },
     ],
-    // Level 7 (6400 coins)
+    // Level 7 (8000 coins)
     [
-        { type: 'flat', effect: 500, cost: 3200, desc: '클릭당 +500 코인' },
-        { type: 'flat', effect: 700, cost: 4000, desc: '클릭당 +700 코인' },
-        { type: 'multiplier', effect: 5.0, cost: 3600, desc: '클릭 획득량 x5.0' },
-        { type: 'critical', effect: { chance: 45 }, cost: 3200, desc: '크리티컬 확률 +45%' },
-        { type: 'critical', effect: { multiplier: 4.0 }, cost: 3400, desc: '크리티컬 배율 +4.0x' },
+        { type: 'flat', effect: 1200, cost: 4000, desc: '클릭당 +1200 코인' },
+        { type: 'flat', effect: 1800, cost: 4800, desc: '클릭당 +1800 코인' },
+        { type: 'multiplier', effect: 5.0, cost: 4400, desc: '클릭 획득량 x5.0' },
+        { type: 'critical', effect: { chance: 45 }, cost: 4000, desc: '크리티컬 확률 +45%' },
+        { type: 'critical', effect: { multiplier: 4.0 }, cost: 4200, desc: '크리티컬 배율 +4.0x' },
     ],
-    // Level 8 (12800 coins)
+    // Level 8 (15000 coins)
     [
-        { type: 'flat', effect: 1000, cost: 6400, desc: '클릭당 +1000 코인' },
-        { type: 'flat', effect: 1500, cost: 8000, desc: '클릭당 +1500 코인' },
-        { type: 'multiplier', effect: 6.0, cost: 7200, desc: '클릭 획득량 x6.0' },
-        { type: 'critical', effect: { chance: 50 }, cost: 6400, desc: '크리티컬 확률 +50%' },
-        { type: 'critical', effect: { multiplier: 5.0 }, cost: 6800, desc: '크리티컬 배율 +5.0x' },
+        { type: 'flat', effect: 3000, cost: 7500, desc: '클릭당 +3000 코인' },
+        { type: 'flat', effect: 4500, cost: 9000, desc: '클릭당 +4500 코인' },
+        { type: 'multiplier', effect: 6.0, cost: 8250, desc: '클릭 획득량 x6.0' },
+        { type: 'critical', effect: { chance: 50 }, cost: 7500, desc: '크리티컬 확률 +50%' },
+        { type: 'critical', effect: { multiplier: 5.0 }, cost: 7875, desc: '크리티컬 배율 +5.0x' },
     ],
-    // Level 9 (25600 coins)
+    // Level 9 (30000 coins)
     [
-        { type: 'flat', effect: 2500, cost: 12800, desc: '클릭당 +2500 코인' },
-        { type: 'flat', effect: 3500, cost: 16000, desc: '클릭당 +3500 코인' },
-        { type: 'multiplier', effect: 7.0, cost: 14400, desc: '클릭 획득량 x7.0' },
-        { type: 'critical', effect: { chance: 55 }, cost: 12800, desc: '크리티컬 확률 +55%' },
-        { type: 'critical', effect: { multiplier: 6.0 }, cost: 13600, desc: '크리티컬 배율 +6.0x' },
+        { type: 'flat', effect: 7000, cost: 15000, desc: '클릭당 +7000 코인' },
+        { type: 'flat', effect: 10000, cost: 18000, desc: '클릭당 +10000 코인' },
+        { type: 'multiplier', effect: 8.0, cost: 16500, desc: '클릭 획득량 x8.0' },
+        { type: 'critical', effect: { chance: 60 }, cost: 15000, desc: '크리티컬 확률 +60%' },
+        { type: 'critical', effect: { multiplier: 7.0 }, cost: 15750, desc: '크리티컬 배율 +7.0x' },
     ],
-    // Level 10 (51200 coins)
+    // Level 10 (60000 coins)
     [
-        { type: 'flat', effect: 5000, cost: 25600, desc: '클릭당 +5000 코인' },
-        { type: 'flat', effect: 7500, cost: 32000, desc: '클릭당 +7500 코인' },
-        { type: 'multiplier', effect: 8.0, cost: 28800, desc: '클릭 획득량 x8.0' },
-        { type: 'critical', effect: { chance: 60 }, cost: 25600, desc: '크리티컬 확률 +60%' },
-        { type: 'critical', effect: { multiplier: 7.0 }, cost: 27200, desc: '크리티컬 배율 +7.0x' },
+        { type: 'flat', effect: 18000, cost: 30000, desc: '클릭당 +18000 코인' },
+        { type: 'flat', effect: 25000, cost: 36000, desc: '클릭당 +25000 코인' },
+        { type: 'multiplier', effect: 10.0, cost: 33000, desc: '클릭 획득량 x10.0' },
+        { type: 'critical', effect: { chance: 70 }, cost: 30000, desc: '크리티컬 확률 +70%' },
+        { type: 'critical', effect: { multiplier: 10.0 }, cost: 31500, desc: '크리티컬 배율 +10.0x' },
     ],
-    // Level 11 (102400 coins)
+    // Level 11 (120000 coins)
     [
-        { type: 'flat', effect: 10000, cost: 51200, desc: '클릭당 +10000 코인' },
-        { type: 'flat', effect: 15000, cost: 64000, desc: '클릭당 +15000 코인' },
-        { type: 'multiplier', effect: 10.0, cost: 57600, desc: '클릭 획득량 x10.0' },
-        { type: 'critical', effect: { chance: 65 }, cost: 51200, desc: '크리티컬 확률 +65%' },
-        { type: 'critical', effect: { multiplier: 8.0 }, cost: 54400, desc: '크리티컬 배율 +8.0x' },
+        { type: 'flat', effect: 40000, cost: 60000, desc: '클릭당 +40000 코인' },
+        { type: 'flat', effect: 60000, cost: 72000, desc: '클릭당 +60000 코인' },
+        { type: 'multiplier', effect: 15.0, cost: 66000, desc: '클릭 획득량 x15.0' },
+        { type: 'critical', effect: { chance: 80 }, cost: 60000, desc: '크리티컬 확률 +80%' },
+        { type: 'critical', effect: { multiplier: 15.0 }, cost: 63000, desc: '크리티컬 배율 +15.0x' },
     ],
-    // Level 12 (204800 coins)
+    // Level 12 (240000 coins)
     [
-        { type: 'flat', effect: 25000, cost: 102400, desc: '클릭당 +25000 코인' },
-        { type: 'flat', effect: 35000, cost: 128000, desc: '클릭당 +35000 코인' },
-        { type: 'multiplier', effect: 12.0, cost: 115200, desc: '클릭 획득량 x12.0' },
-        { type: 'critical', effect: { chance: 70 }, cost: 102400, desc: '크리티컬 확률 +70%' },
-        { type: 'critical', effect: { multiplier: 10.0 }, cost: 108800, desc: '크리티컬 배율 +10.0x' },
+        { type: 'flat', effect: 100000, cost: 120000, desc: '클릭당 +100000 코인' },
+        { type: 'flat', effect: 150000, cost: 144000, desc: '클릭당 +150000 코인' },
+        { type: 'multiplier', effect: 20.0, cost: 132000, desc: '클릭 획득량 x20.0' },
+        { type: 'critical', effect: { chance: 90 }, cost: 120000, desc: '크리티컬 확률 +90%' },
+        { type: 'critical', effect: { multiplier: 20.0 }, cost: 126000, desc: '크리티컬 배율 +20.0x' },
     ],
-    // Level 13 (409600 coins)
+    // Level 13 (480000 coins)
     [
-        { type: 'flat', effect: 50000, cost: 204800, desc: '클릭당 +50000 코인' },
-        { type: 'flat', effect: 75000, cost: 256000, desc: '클릭당 +75000 코인' },
-        { type: 'multiplier', effect: 15.0, cost: 230400, desc: '클릭 획득량 x15.0' },
-        { type: 'critical', effect: { chance: 75 }, cost: 204800, desc: '크리티컬 확률 +75%' },
-        { type: 'critical', effect: { multiplier: 12.0 }, cost: 217600, desc: '크리티컬 배율 +12.0x' },
+        { type: 'flat', effect: 250000, cost: 240000, desc: '클릭당 +250000 코인' },
+        { type: 'flat', effect: 350000, cost: 288000, desc: '클릭당 +350000 코인' },
+        { type: 'multiplier', effect: 30.0, cost: 264000, desc: '클릭 획득량 x30.0' },
+        { type: 'critical', effect: { chance: 100 }, cost: 240000, desc: '크리티컬 확률 +100%' },
+        { type: 'critical', effect: { multiplier: 30.0 }, cost: 252000, desc: '크리티컬 배율 +30.0x' },
     ],
-    // Level 14 (819200 coins)
+    // Level 14 (1000000 coins)
     [
-        { type: 'flat', effect: 100000, cost: 409600, desc: '클릭당 +100000 코인' },
-        { type: 'flat', effect: 150000, cost: 512000, desc: '클릭당 +150000 코인' },
-        { type: 'multiplier', effect: 20.0, cost: 460800, desc: '클릭 획득량 x20.0' },
-        { type: 'critical', effect: { chance: 80 }, cost: 409600, desc: '크리티컬 확률 +80%' },
-        { type: 'critical', effect: { multiplier: 15.0 }, cost: 435200, desc: '크리티컬 배율 +15.0x' },
-    ],
-    // Level 15 (1638400 coins)
-    [
-        { type: 'flat', effect: 250000, cost: 819200, desc: '클릭당 +250000 코인' },
-        { type: 'flat', effect: 350000, cost: 1024000, desc: '클릭당 +350000 코인' },
-        { type: 'multiplier', effect: 25.0, cost: 921600, desc: '클릭 획득량 x25.0' },
-        { type: 'critical', effect: { chance: 85 }, cost: 819200, desc: '크리티컬 확률 +85%' },
-        { type: 'critical', effect: { multiplier: 20.0 }, cost: 870400, desc: '크리티컬 배율 +20.0x' },
-    ],
-    // Level 16 (3276800 coins)
-    [
-        { type: 'flat', effect: 500000, cost: 1638400, desc: '클릭당 +500000 코인' },
-        { type: 'flat', effect: 750000, cost: 2048000, desc: '클릭당 +750000 코인' },
-        { type: 'multiplier', effect: 30.0, cost: 1843200, desc: '클릭 획득량 x30.0' },
-        { type: 'critical', effect: { chance: 90 }, cost: 1638400, desc: '크리티컬 확률 +90%' },
-        { type: 'critical', effect: { multiplier: 25.0 }, cost: 1740800, desc: '크리티컬 배율 +25.0x' },
-    ],
-    // Level 17 (6553600 coins)
-    [
-        { type: 'flat', effect: 1000000, cost: 3276800, desc: '클릭당 +1000000 코인' },
-        { type: 'flat', effect: 1500000, cost: 4096000, desc: '클릭당 +1500000 코인' },
-        { type: 'multiplier', effect: 40.0, cost: 3686400, desc: '클릭 획득량 x40.0' },
-        { type: 'critical', effect: { chance: 95 }, cost: 3276800, desc: '크리티컬 확률 +95%' },
-        { type: 'critical', effect: { multiplier: 30.0 }, cost: 3481600, desc: '크리티컬 배율 +30.0x' },
-    ],
-    // Level 18 (13107200 coins)
-    [
-        { type: 'flat', effect: 2500000, cost: 6553600, desc: '클릭당 +2500000 코인' },
-        { type: 'flat', effect: 3500000, cost: 8192000, desc: '클릭당 +3500000 코인' },
-        { type: 'multiplier', effect: 50.0, cost: 7372800, desc: '클릭 획득량 x50.0' },
-        { type: 'critical', effect: { chance: 100 }, cost: 6553600, desc: '크리티컬 확률 +100%' },
-        { type: 'critical', effect: { multiplier: 40.0 }, cost: 6963200, desc: '크리티컬 배율 +40.0x' },
-    ],
-    // Level 19 (26214400 coins)
-    [
-        { type: 'flat', effect: 5000000, cost: 13107200, desc: '클릭당 +5000000 코인' },
-        { type: 'flat', effect: 7500000, cost: 16384000, desc: '클릭당 +7500000 코인' },
-        { type: 'multiplier', effect: 75.0, cost: 14745600, desc: '클릭 획득량 x75.0' },
-        { type: 'critical', effect: { multiplier: 50.0 }, cost: 13107200, desc: '크리티컬 배율 +50.0x' },
-        { type: 'critical', effect: { multiplier: 60.0 }, cost: 13926400, desc: '크리티컬 배율 +60.0x' },
-    ],
-    // Level 20 (52428800 coins)
-    [
-        { type: 'flat', effect: 10000000, cost: 26214400, desc: '클릭당 +10000000 코인' },
-        { type: 'flat', effect: 15000000, cost: 32768000, desc: '클릭당 +15000000 코인' },
-        { type: 'multiplier', effect: 100.0, cost: 29491200, desc: '클릭 획득량 x100.0' },
-        { type: 'critical', effect: { multiplier: 75.0 }, cost: 26214400, desc: '크리티컬 배율 +75.0x' },
-        { type: 'critical', effect: { multiplier: 100.0 }, cost: 27852800, desc: '크리티컬 배율 +100.0x' },
-    ],
-    // Level 21 (104857600 coins)
-    [
-        { type: 'flat', effect: 25000000, cost: 52428800, desc: '클릭당 +25000000 코인' },
-        { type: 'flat', effect: 35000000, cost: 65536000, desc: '클릭당 +35000000 코인' },
-        { type: 'multiplier', effect: 150.0, cost: 58982400, desc: '클릭 획득량 x150.0' },
-        { type: 'critical', effect: { multiplier: 125.0 }, cost: 52428800, desc: '크리티컬 배율 +125.0x' },
-        { type: 'critical', effect: { multiplier: 150.0 }, cost: 55705600, desc: '크리티컬 배율 +150.0x' },
-    ],
-    // Level 22 (209715200 coins)
-    [
-        { type: 'flat', effect: 50000000, cost: 104857600, desc: '클릭당 +50000000 코인' },
-        { type: 'flat', effect: 75000000, cost: 131072000, desc: '클릭당 +75000000 코인' },
-        { type: 'multiplier', effect: 200.0, cost: 117964800, desc: '클릭 획득량 x200.0' },
-        { type: 'critical', effect: { multiplier: 200.0 }, cost: 104857600, desc: '크리티컬 배율 +200.0x' },
-        { type: 'critical', effect: { multiplier: 250.0 }, cost: 111411200, desc: '크리티컬 배율 +250.0x' },
-    ],
-    // Level 23 (419430400 coins)
-    [
-        { type: 'flat', effect: 100000000, cost: 209715200, desc: '클릭당 +100000000 코인' },
-        { type: 'flat', effect: 150000000, cost: 262144000, desc: '클릭당 +150000000 코인' },
-        { type: 'multiplier', effect: 300.0, cost: 235929600, desc: '클릭 획득량 x300.0' },
-        { type: 'critical', effect: { multiplier: 300.0 }, cost: 209715200, desc: '크리티컬 배율 +300.0x' },
-        { type: 'critical', effect: { multiplier: 400.0 }, cost: 222822400, desc: '크리티컬 배율 +400.0x' },
-    ],
-    // Level 24 (838860800 coins)
-    [
-        { type: 'flat', effect: 250000000, cost: 419430400, desc: '클릭당 +250000000 코인' },
-        { type: 'flat', effect: 500000000, cost: 524288000, desc: '클릭당 +500000000 코인' },
-        { type: 'multiplier', effect: 500.0, cost: 471859200, desc: '클릭 획득량 x500.0' },
-        { type: 'critical', effect: { multiplier: 500.0 }, cost: 419430400, desc: '크리티컬 배율 +500.0x' },
-        { type: 'critical', effect: { multiplier: 1000.0 }, cost: 445644800, desc: '크리티컬 배율 +1000.0x' },
+        { type: 'flat', effect: 600000, cost: 500000, desc: '클릭당 +600000 코인' },
+        { type: 'flat', effect: 900000, cost: 600000, desc: '클릭당 +900000 코인' },
+        { type: 'multiplier', effect: 50.0, cost: 550000, desc: '클릭 획득량 x50.0' },
+        { type: 'critical', effect: { multiplier: 50.0 }, cost: 500000, desc: '크리티컬 배율 +50.0x' },
+        { type: 'critical', effect: { multiplier: 75.0 }, cost: 525000, desc: '크리티컬 배율 +75.0x' },
     ]
 ];
 
@@ -518,7 +436,7 @@ function generatePlayerId() {
 async function updateLeaderboard() {
     try {
         await db.collection('leaderboard').doc(playerId).set({
-            coins: playerStats.totalEarned,
+            coins: playerStats.coins,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
     } catch (error) {
